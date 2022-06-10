@@ -15,7 +15,7 @@ confirm_changeset = true
 [staging.deploy]
 [staging.deploy.parameters]
 stack_name = "todo-list-aws-staging"
-s3_bucket = "aws-sam-cli-managed-staging-samclisourcebucket-XXXXX" #Incluir bucket propio
+s3_bucket = "todo-list-aws-s3-staging" #Incluir bucket propio
 s3_prefix = "todo-list-aws"
 region = "us-east-1"
 capabilities = "CAPABILITY_IAM"
@@ -26,7 +26,7 @@ image_repositories = []
 [production.deploy]
 [production.deploy.parameters]
 stack_name = "todo-list-aws-production"
-s3_bucket = "aws-sam-cli-managed-production-samclisourcebucket-XXXXX" #Incluir bucket propio
+s3_bucket = "todo-list-aws-s3-prod" #Incluir bucket propio
 s3_prefix = "todo-list-aws"
 region = "us-east-1"
 capabilities = "CAPABILITY_IAM"
