@@ -199,8 +199,62 @@ class TestDatabaseFunctions(unittest.TestCase):
         # Testing file functions
         self.assertRaises(TypeError, delete_item("", self.dynamodb))
         print ('End: test_delete_todo_error')
+        
+        
+# Se añaden otro mock con otros tests
 
-
+@mock_dynamodb2
+class TestDatabaseFunctions2(unittest.TestCase):
+    def setUp(self):
+        print ('---------------------')
+        print ('Start: setUp')
+        warnings.filterwarnings(
+            "ignore",
+            category=ResourceWarning,
+            message="unclosed.*<socket.socket.*>")
+        warnings.filterwarnings(
+            "ignore",
+            category=DeprecationWarning,
+            message="callable is None.*")
+        warnings.filterwarnings(
+            "ignore",
+            category=DeprecationWarning,
+            message="Using or importing.*")
+        """Create the mock database and table"""
+        self.dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
+        self.is_local = 'true'
+        print ('End: setUp')
+        
+        
+    def test_get_todo_new(self):
+        print ('---------------------')
+        print ('Start: test_get_todo_new')
+        # Testing file functions
+        from src.todoList import get_item
+        self.table = table = mock.Mock()
+        self.table.get_item.side_effect = Exception('Boto3 Exception')
+        get_item("", self.dynamodb)
+        print ('End: test_get_todo_new')
+        
+    
+    def test_put_todo_new(self):
+        print ('---------------------')
+        print ('Start: test_put_todo_new')
+        # Testing file functions
+        from src.todoList import put_item
+        # Table mock
+        self.assertRaises(Exception, put_item("", self.dynamodb))
+        self.assertRaises(Exception, put_item("", self.dynamodb))
+        print ('End: test_put_todo_new')
+        
+    
+    def test_delete_todo_new(self):
+        print ('---------------------')
+        print ('Start: test_delete_todo_new')
+        from src.todoList import delete_item
+        # Testing file functions
+        self.assertRaises(TypeError, delete_item("", self.dynamodb))
+        print ('End: test_delete_todo_new')
 
 if __name__ == '__main__':
     unittest.main()
