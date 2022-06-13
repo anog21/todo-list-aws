@@ -10,4 +10,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.1]
 - Añadida región a la tabla local
 - Creado directorio con scripts útiles
+## [1.0.2]
+- Añadir cambios en el Jenkins file para aumentar la cobertura
 
