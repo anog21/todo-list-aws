@@ -149,7 +149,6 @@ def create_todo_table(dynamodb):
 
 
 def get_translated(key, language, dynamodb=None):
-    print('language ==>>'+str(language))
     table = get_table(dynamodb)
     translate = boto3.client(service_name='translate',
                              region_name='us-east-1',
@@ -165,11 +164,8 @@ def get_translated(key, language, dynamodb=None):
         print(e.response['Error']['Message'])   # pragma: no cover
     else:
         if 'Item' in result:
-            translation = translate.translate_text(
-                Text="result['Item']['text']",
-                SourceLanguageCode="es",
-                TargetLanguageCode=language
-            )
-            result['Item']['text'] = translation['TranslatedText']
-            print('Result getTranslatedItem:'+str(result))
+            translation = translate.translate_text(Text=result['Item']['text'],
+                                                   SourceLanguageCode="es",
+                                                   TargetLanguageCode=language)
+            result['Item']["text"] = translation.get('TranslatedText')
             return result['Item']
