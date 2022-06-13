@@ -79,7 +79,7 @@ Resources:
           Properties:
             Path: /todos/{id}
             Method: put
-    TranslateTodoFunction:
+  TranslateTodoFunction:
     Type: AWS::Serverless::Function 
     Properties:
       CodeUri: src/
