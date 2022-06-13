@@ -194,15 +194,7 @@ class TestDatabaseFunctions(unittest.TestCase):
         print ('Item deleted succesfully')
         self.assertTrue(len(get_items(self.dynamodb)) == 0)
         print ('End: test_delete_todo')
-
-    def test_delete_todo_error(self):
-        print ('---------------------')
-        print ('Start: test_delete_todo_error')
-        from src.todoList import delete_item
-        # Testing file functions
-        self.assertRaises(TypeError, delete_item("", self.dynamodb))
-        print ('End: test_delete_todo_error')
-
+    
     def test_translate_todo_error(self):
         print ('---------------------')
         print ('Start: test_translate_todo_error')
@@ -218,6 +210,16 @@ class TestDatabaseFunctions(unittest.TestCase):
         responseGet = get_item(idItem,self.dynamodb)
         self.assertRaises(Exception, get_translated(idItem, "", self.dynamodb))
         print ('End: test_translate_todo_error')
+    
+    def test_delete_todo_error(self):
+        print ('---------------------')
+        print ('Start: test_delete_todo_error')
+        from src.todoList import delete_item
+        # Testing file functions
+        self.assertRaises(TypeError, delete_item("", self.dynamodb))
+        print ('End: test_delete_todo_error')
+
+    
     
         
 # Se añaden otro mock con otros tests
