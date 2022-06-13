@@ -26,10 +26,13 @@ class TestDatabaseFunctions(unittest.TestCase):
             message="Using or importing.*")
         """Create the mock database and table"""
         self.dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
+        self.translate = boto3.client(service_name='translate', region_name='us-east-1', use_ssl=True)
         self.is_local = 'true'
         self.uuid = "123e4567-e89b-12d3-a456-426614174000"
         self.text = "Aprender DevOps y Cloud en la UNIR"
-
+        self.translated = "Learn DevOps and Cloud at UNIR"
+        self.language = "EN"
+        
         from src.todoList import create_todo_table
         self.table = create_todo_table(self.dynamodb)
         #self.table_local = create_todo_table()
@@ -199,7 +202,23 @@ class TestDatabaseFunctions(unittest.TestCase):
         # Testing file functions
         self.assertRaises(TypeError, delete_item("", self.dynamodb))
         print ('End: test_delete_todo_error')
-        
+
+    def test_translate_todo_error(self):
+        print ('---------------------')
+        print ('Start: test_translate_todo_error')
+        from src.todoList import translation
+        from src.todoList import put_item
+        from src.todoList import get_item
+        # Table mock
+        self.assertRaises(Exception, translated_item("", self.language, self.dynamodb))
+        putresponse = put_item(self.text, self.dynamodb)
+        print ('Response put_item:' + str(putresponse))
+        idItem = json.loads(putresponse['body'])['id']
+        print ('Id item:' + idItem)
+        responseGet = get_item(idItem,self.dynamodb)
+        self.assertRaises(Exception, translation(idItem, "", self.dynamodb))
+        print ('End: test_translate_todo_error')
+    
         
 # Se añaden otro mock con otros tests
 
