@@ -107,7 +107,25 @@ class TestDatabaseFunctions(unittest.TestCase):
             self.text,
             responseGet['text'])
         print ('End: test_get_todo')
-    
+
+
+    def test_translate_todo_error(self):
+        print ('---------------------')
+        print ('Start: test_translate_todo_error')
+        from src.todoList import get_translated
+        from src.todoList import put_item
+        from src.todoList import get_item
+        # Table mock
+        self.assertRaises(Exception, get_translated("", self.language, self.dynamodb))
+        putresponse = put_item(self.text, self.dynamodb)
+        print ('Response put_item:' + str(putresponse))
+        idItem = json.loads(putresponse['body'])['id']
+        print ('Id item:' + idItem)
+        responseGet = get_item(idItem,self.dynamodb)
+        self.assertRaises(Exception, get_translated(idItem, "", self.dynamodb))
+        print ('End: test_translate_todo_error')
+
+
     def test_list_todo(self):
         print ('---------------------')
         print ('Start: test_list_todo')
@@ -194,22 +212,6 @@ class TestDatabaseFunctions(unittest.TestCase):
         print ('Item deleted succesfully')
         self.assertTrue(len(get_items(self.dynamodb)) == 0)
         print ('End: test_delete_todo')
-    
-    def test_translate_todo_error(self):
-        print ('---------------------')
-        print ('Start: test_translate_todo_error')
-        from src.todoList import get_translated
-        from src.todoList import put_item
-        from src.todoList import get_item
-        # Table mock
-        self.assertRaises(Exception, get_translated("", self.language, self.dynamodb))
-        putresponse = put_item(self.text, self.dynamodb)
-        print ('Response put_item:' + str(putresponse))
-        idItem = json.loads(putresponse['body'])['id']
-        print ('Id item:' + idItem)
-        responseGet = get_item(idItem,self.dynamodb)
-        self.assertRaises(Exception, get_translated(idItem, "", self.dynamodb))
-        print ('End: test_translate_todo_error')
     
     def test_delete_todo_error(self):
         print ('---------------------')
